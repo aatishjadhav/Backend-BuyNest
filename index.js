@@ -4,27 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const User = require("./models/user.models");
 const Order = require("./models/order.models");
-const { verifyToken } = require("./middleware/verifyToken.js");
+const { verifyToken } = require("./middleware/verifyToken");
+const bcrypt = require("bcryptjs");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://buynest-46jp.onrender.com"
-];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, 
-  })
-);
+app.use(cors());
 initializeDb();
 
 const PORT = process.env.PORT || 4000;
