@@ -75,7 +75,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-
 app.get("/products/categories/:category", verifyToken, async (req, res) => {
   try {
     const category = req.params.category;
@@ -172,10 +171,22 @@ app.post("/orders", verifyToken, async (req, res) => {
   try {
     const { items, total } = req.body;
 
+    // Loop through each item in the order
+    for (let item of items) {
+      // Check if the product exists in the database
+      const product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res
+          .status(404)
+          .json({ error: `Product with ID ${item.productId} not found.` });
+      }
+    }
+   
     const order = new Order({
       items,
       total,
-      user: req.user._id, 
+      user: req.user._id,
     });
 
     await order.save();
@@ -190,14 +201,15 @@ app.get("/orders", verifyToken, async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const orders = await Order.find({ user: userId }).populate("items.productId");
+    const orders = await Order.find({ user: userId }).populate(
+      "items.productId"
+    );
 
     res.status(200).json({ orders });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch orders" });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
