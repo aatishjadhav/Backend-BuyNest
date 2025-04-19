@@ -11,13 +11,14 @@ const verifyToken = (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1]; // Extract token from "Bearer TOKEN"
-
+  console.log("Received Token:", token);
   if (!token) {
     return res.status(401).json({ message: "Token format invalid." });
   }
 
   try {
-    const decodeToken = jwt.verify(token, JWT_SECRET);
+      const decodeToken = jwt.verify(token, JWT_SECRET);
+      console.log("Decoded Token:", decodeToken);
       req.user = decodeToken;
       console.log("Token successfully decoded", decodeToken)
     next();

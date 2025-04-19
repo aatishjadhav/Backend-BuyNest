@@ -9,10 +9,11 @@ const { verifyToken } = require("./middleware/verifyToken");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+
 initializeDb();
 
 const PORT = process.env.PORT || 4000;
@@ -169,6 +170,8 @@ app.delete("/products/:productId", verifyToken, async (req, res) => {
 
 app.post("/orders", verifyToken, async (req, res) => {
   try {
+    console.log("Request Body:", req.body); // ✅ Log incoming order data
+    console.log("User from token:", req.user); // ✅ Log decoded user from token
     const { items, total } = req.body;
     const userId = req.user.id; 
 
@@ -177,17 +180,25 @@ app.post("/orders", verifyToken, async (req, res) => {
       total,
       user: userId,
     });
-    await order.save();
+    console.log("Order to be saved:", order);
+
+    await order.save(); // Save order in the database
+    console.log("Order saved successfully!");
 
     res.status(201).json({ message: "Order placed successfully", order });
   } catch (error) {
+    console.error("Error placing order:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
 
 app.get("/orders", verifyToken, async (req, res) => {
   try {
-    const userId = req.user._id;
+    console.log("Request Body:", req.body); // ✅ Log incoming order data
+    console.log("User from token:", req.user); // ✅ Log decoded user from token
+
+    const userId = req.user.id;
+
 
     const orders = await Order.find({ user: userId }).populate(
       "items.productId"
