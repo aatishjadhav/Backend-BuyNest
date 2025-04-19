@@ -2,6 +2,7 @@ const { initializeDb } = require("./db/db.connect");
 const Product = require("./models/product.models");
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const User = require("./models/user.models");
 const Order = require("./models/order.models");
 const { verifyToken } = require("./middleware/verifyToken");
