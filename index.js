@@ -170,7 +170,7 @@ app.delete("/products/:productId", verifyToken, async (req, res) => {
 app.post("/orders", verifyToken, async (req, res) => {
   try {
     const { items, total } = req.body;
-    const userId = req.user._id; // Get user ID from the decoded token
+    const userId = req.user.id; 
 
     const order = new Order({
       items,
