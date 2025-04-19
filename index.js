@@ -8,7 +8,7 @@ const { verifyToken } = require("./middleware/verifyToken.js");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'https://buynest-46jp.onrender.com/'}));
 
 initializeDb();
 
