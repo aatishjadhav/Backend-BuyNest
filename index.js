@@ -170,25 +170,13 @@ app.delete("/products/:productId", verifyToken, async (req, res) => {
 app.post("/orders", verifyToken, async (req, res) => {
   try {
     const { items, total } = req.body;
+    const userId = req.user._id; // Get user ID from the decoded token
 
-    // Loop through each item in the order
-    for (let item of items) {
-      // Check if the product exists in the database
-      const product = await Product.findById(item.productId);
-
-      if (!product) {
-        return res
-          .status(404)
-          .json({ error: `Product with ID ${item.productId} not found.` });
-      }
-    }
-   
     const order = new Order({
       items,
       total,
-      user: req.user._id,
+      user: userId,
     });
-
     await order.save();
 
     res.status(201).json({ message: "Order placed successfully", order });
