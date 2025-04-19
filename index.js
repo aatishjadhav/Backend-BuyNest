@@ -6,6 +6,7 @@ const User = require("./models/user.models");
 const Order = require("./models/order.models");
 const { verifyToken } = require("./middleware/verifyToken");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,7 +15,7 @@ app.use(cors());
 initializeDb();
 
 const PORT = process.env.PORT || 4000;
-
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.get("/products", verifyToken, async (req, res) => {
   try {
