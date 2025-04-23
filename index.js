@@ -197,7 +197,7 @@ app.get("/orders", verifyToken, async (req, res) => {
 
     const orders = await Order.find({ user: userId }).populate(
       "items.productId"
-    ).populate("user", "username");
+    ).populate("user", "name");
 
     res.status(200).json({ orders });
   } catch (error) {
