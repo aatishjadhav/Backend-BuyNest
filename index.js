@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 initializeDb();
 
 const PORT = process.env.PORT || 4000;
@@ -170,18 +169,15 @@ app.delete("/products/:productId", verifyToken, async (req, res) => {
 
 app.post("/orders", verifyToken, async (req, res) => {
   try {
-    
     const { items, total } = req.body;
-
+    console.log("User ID from token:", req.user.userId);
     const order = new Order({
       items,
       total,
-      user: req.user._id,
+      user: req.user.userId,
     });
-    console.log("Order to be saved:", order);
 
     await order.save();
-    console.log("Order saved successfully!");
 
     res.status(201).json({ message: "Order placed successfully", order });
   } catch (error) {
@@ -191,10 +187,10 @@ app.post("/orders", verifyToken, async (req, res) => {
 });
 
 app.get("/orders", verifyToken, async (req, res) => {
-  try {   
-    const orders = await Order.find({ user: req.user._id }).populate(
-      "items.productId"
-    ).populate("user", "name");
+  try {
+    const orders = await Order.find({ user: req.user.userId })
+      .populate("items.productId")
+      .populate("user", "name email");
 
     res.status(200).json({ orders });
   } catch (error) {

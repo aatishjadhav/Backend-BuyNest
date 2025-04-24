@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   items: [
     {
       productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -8,10 +12,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   total: Number,
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  
   createdAt: {
     type: Date,
     default: Date.now,
