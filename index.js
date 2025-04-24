@@ -172,7 +172,7 @@ app.post("/orders", verifyToken, async (req, res) => {
   try {
     
     const { items, total } = req.body;
-    const userId = req.user.id; 
+    const userId = req.user.id || req.user._id;
 
     const order = new Order({
       items,
@@ -193,7 +193,7 @@ app.post("/orders", verifyToken, async (req, res) => {
 
 app.get("/orders", verifyToken, async (req, res) => {
   try {   
-    const userId = req.user.id;
+     const userId = req.user.id || req.user._id;
 
     const orders = await Order.find({ user: userId }).populate(
       "items.productId"
