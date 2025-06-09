@@ -18,7 +18,7 @@ initializeDb();
 const PORT = process.env.PORT || 4000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-app.get("/products", verifyToken, async (req, res) => {
+app.get("/products", async (req, res) => {
   try {
     const getAllProducts = await Product.find();
     res.status(200).json(getAllProducts);
@@ -75,7 +75,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.get("/products/categories/:category", verifyToken, async (req, res) => {
+app.get("/products/categories/:category", async (req, res) => {
   try {
     const category = req.params.category;
     const getProdByCategory = await Product.find({ category: category });
