@@ -5,6 +5,7 @@ const getProducts = async (req, res) => {
     const getAllProducts = await Product.find();
     res.status(200).json(getAllProducts);
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -19,6 +20,7 @@ const getProductsByCategory = async (req, res) => {
       res.status(404).json({ error: "Category not found", error });
     }
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -35,10 +37,7 @@ const addProduct = async (req, res) => {
       price,
       originalPrice,
       discount,
-      quantity,
-      size,
-      refundPolicy,
-      paymentOptions,
+      tags
     } = req.body;
     const addNew = new Product({
       name,
@@ -50,10 +49,7 @@ const addProduct = async (req, res) => {
       price,
       originalPrice,
       discount,
-      quantity,
-      size,
-      refundPolicy,
-      paymentOptions,
+      tags,
       createdBy: req.user._id,
     });
     await addNew.save();
@@ -61,6 +57,7 @@ const addProduct = async (req, res) => {
       .status(201)
       .json({ message: "new product added successfully", product: addNew });
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -83,6 +80,7 @@ const updateProduct = async (req, res) => {
       res.status(404).json({ error: "product not found" });
     }
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -97,6 +95,7 @@ const deleteProduct = async (req, res) => {
       res.status(200).json(deletedProduct);
     }
   } catch (error) {
+    console.error("Add Product Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

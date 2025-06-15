@@ -23,6 +23,7 @@ const loginUser = async (req, res) => {
 
     res.json({ token, user: userWithoutPassword });
   } catch (error) {
+    console.error("Error while login:", error);
     res.status(500).json({ message: "Login failed", error });
   }
 };
@@ -39,6 +40,7 @@ const signupUser = async (req, res) => {
     await user.save();
     res.status(200).json({ message: "user registered successfully" });
   } catch (error) {
+     console.error("Error while signup:", error);
     res.status(500).json({ message: "Signup failed", error });
   }
 };

@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
-  console.log("Received Token:", token);
+  
   if (!token) {
     return res.status(401).json({ message: "Token format invalid." });
   }
