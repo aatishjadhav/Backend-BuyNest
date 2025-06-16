@@ -2,10 +2,12 @@ const Order = require("../models/order.models");
 
 const placeOrder = async (req, res) => {
   try {
-    const { items, total } = req.body;
+    const { items, total, appliedCoupon, discount } = req.body;
     const order = new Order({
       items,
       total,
+      appliedCoupon,
+      discount,
       user: req.user.userId,
     });
 
