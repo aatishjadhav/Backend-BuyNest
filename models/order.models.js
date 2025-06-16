@@ -12,6 +12,8 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   total: Number,
+  appliedCoupon: { type: String, default: null },
+  discount: { type: Number, default: 0 },
   
   createdAt: {
     type: Date,
