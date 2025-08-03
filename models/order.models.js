@@ -23,6 +23,12 @@ const orderSchema = new mongoose.Schema({
     postalCode: String,
     phoneNumber: String,
   },
+  paymentStatus: { type: String, default: "Pending" },
+  paymentDetails: {
+    razorpay_order_id: String,
+    razorpay_payment_id: String,
+    razorpay_signature: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
