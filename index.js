@@ -18,12 +18,14 @@ const orderRoutes = require("./routes/order.routes");
 const productRoutes = require("./routes/product.routes");
 const userRoutes = require("./routes/user.routes");
 const addressRoutes = require("./routes/address.routes");
+const paymentRoutes = require("./routes/payment.routes");
 
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
 app.use("/address", addressRoutes);
+app.use("/payment", paymentRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
