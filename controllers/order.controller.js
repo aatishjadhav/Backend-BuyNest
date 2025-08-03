@@ -24,6 +24,7 @@ const placeOrder = async (req, res) => {
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user.userId })
+      .sort({ createdAt: -1 })
       .populate("items.productId")
       .populate("user", "name email");
 
